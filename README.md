@@ -7,6 +7,17 @@ The previous name was "Remote File Plugin".
 
 This plugin enables definition of external Jenkinsfile from another repository for MultiBranch Pipelines.
 
+> **Fork PageUp — plugin `pageup-remote-file`.** L'upstream [jenkinsci/remote-file-plugin](https://github.com/jenkinsci/remote-file-plugin) n'est plus maintenu et ne fonctionne plus à partir de Jenkins 2.579 (voir [CHANGELOG.md](CHANGELOG.md)). Ce fork porte son propre identifiant mais garde les mêmes classes Java : la configuration des jobs existants est conservée.
+>
+> **Build** (JDK 17+ et Maven 3.9+) : `mvn clean verify -Dchangelist=` → `target/pageup-remote-file.hpi`.
+> Sans Maven local : `docker run --rm -v "$PWD":/src -w /src maven:3.9-eclipse-temurin-21 mvn -B clean verify -Dchangelist=`
+>
+> **Migration depuis `remote-file`** (les deux plugins ne peuvent pas coexister) :
+> 1. Sauvegarder les `config.xml` de `$JENKINS_HOME/jobs`.
+> 2. *Administrer Jenkins → Plugins → Plugins installés* : désinstaller « Remote Jenkinsfile Provider ».
+> 3. *Paramètres avancés → Déployer un plugin* : envoyer `pageup-remote-file.hpi`.
+> 4. Redémarrer Jenkins, puis « Scan Repository Now » sur un projet pour vérifier.
+
 # Description
 Jenkins MultiBranch Pipeline feature is great to manage multi branched repositories which need to have
 dynamically created Pipeline Jobs on-demand. To use this feature you need to define [Jenkins Pipeline Script](https://github.com/jenkinsci/workflow-plugin/blob/master/TUTORIAL.md#understanding-flow-scripts)

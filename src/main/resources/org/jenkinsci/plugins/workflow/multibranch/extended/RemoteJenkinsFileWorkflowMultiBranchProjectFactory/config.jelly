@@ -30,10 +30,10 @@ THE SOFTWARE.
     <f:entry title="${%Script Path}" field="remoteJenkinsFile">
         <f:textbox default="Jenkinsfile"/>
     </f:entry>
-    <f:entry title="Match branches" help="/plugin/remote-file/help-matchBranches.html">
+    <f:entry title="Match branches" help="/plugin/pageup-remote-file/help-matchBranches.html">
         <f:checkbox field="matchBranches"> </f:checkbox>
     </f:entry>
-    <f:entry title="Lookup in Parameters for Script Path" help="/plugin/remote-file/help-lookupInParameters.html">
+    <f:entry title="Lookup in Parameters for Script Path" help="/plugin/pageup-remote-file/help-lookupInParameters.html">
         <f:checkbox field="lookupInParameters"> </f:checkbox>
     </f:entry>
     <f:entry title="${%Fallback Branch}" field="fallbackBranch">

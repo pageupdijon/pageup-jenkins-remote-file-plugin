@@ -4,11 +4,11 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.scm.SCM;
+import hudson.Util;
 import jenkins.branch.MultiBranchProjectFactory;
 import jenkins.branch.MultiBranchProjectFactoryDescriptor;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceCriteria;
-import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.multibranch.AbstractWorkflowMultiBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
@@ -52,7 +52,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
      */
     @DataBoundSetter
     public void setRemoteJenkinsFile(String remoteJenkinsFile) {
-        if (StringUtils.isEmpty(remoteJenkinsFile)) {
+        if (Util.fixEmpty(remoteJenkinsFile) == null) {
             this.remoteJenkinsFile = RemoteJenkinsFileWorkflowMultiBranchProjectFactory.DEFAULT_JENKINS_FILE;
         } else {
             this.remoteJenkinsFile = remoteJenkinsFile;
@@ -104,7 +104,7 @@ public class RemoteJenkinsFileWorkflowMultiBranchProjectFactory extends Abstract
     protected SCMSourceCriteria getSCMSourceCriteria(@NonNull SCMSource source) {
         return (probe, taskListener) -> {
             // Don't match if remote SCM of remoteFileName is not configured
-            if (this.remoteJenkinsFileSCM == null || StringUtils.isEmpty(this.remoteJenkinsFile)) {
+            if (this.remoteJenkinsFileSCM == null || Util.fixEmpty(this.remoteJenkinsFile) == null) {
                 return false;
             }
             this.setScmSourceBranchName(probe.name());

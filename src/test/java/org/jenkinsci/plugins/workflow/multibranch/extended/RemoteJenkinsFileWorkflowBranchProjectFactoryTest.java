@@ -6,10 +6,10 @@ import hudson.plugins.git.BranchSpec;
 import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.UserRemoteConfig;
 import hudson.slaves.DumbSlave;
+import hudson.Util;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSCMSource;
 import jenkins.plugins.git.GitSampleRepoRule;
-import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
@@ -197,7 +197,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
         for (String branchName : this.scmBranches) {
             String branchNameToCheck = this.jenkinsFileRepoBranch;
             WorkflowJob branchJob = workflowMultiBranchProject.getJob(branchName);
-            if ("master".equals(branchName) || StringUtils.isEmpty(localFileMarker)) {
+            if ("master".equals(branchName) || Util.fixEmpty(localFileMarker) == null) {
                 WorkflowRun lastBuild = branchJob.getLastBuild();
                 lastBuild.writeWholeLogTo(System.out);
                 assertEquals(1, lastBuild.getNumber());
@@ -225,7 +225,7 @@ public class RemoteJenkinsFileWorkflowBranchProjectFactoryTest {
 
     private void createProjectAndTest(boolean matchBranches, String localFileMarker, String fallbackBranch) throws Exception {
         int expectedBranches;
-        if( StringUtils.isEmpty(localFileMarker) == false ) {
+        if( Util.fixEmpty(localFileMarker) != null ) {
             // Only master branch will contain the local file
             expectedBranches = 1;
         } else {
